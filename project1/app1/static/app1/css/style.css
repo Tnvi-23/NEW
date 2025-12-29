@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+}
+
+h1 {
+    color: #2563eb;
+    padding-left: 90px;
+}
+h2{
+    padding-left: 140px;
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 700px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.block1{
+    background-color: gold;
+    width: 250px;
+    border-radius: 10px;
+    padding: 20px;
+}
+.l1{
+    padding-left: 50px;
+}
