@@ -3,4 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('fill-form/', views.submit_form, name='submit_form'),
 ]
+
