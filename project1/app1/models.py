@@ -1,50 +1,26 @@
+# models.py
 from django.db import models
-class StudentResponse(models.Model):
+
+class Student(models.Model):
     name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
+    student_class = models.CharField(max_length=50)
     contact_no = models.CharField(max_length=15)
-
-    YEAR_CHOICES = [
-        ('FY', 'First Year'),
-        ('SY', 'Second Year'),
-        ('TY', 'Third Year'),
-        ('LY', 'Last Year'),
-    ]
-    year = models.CharField(max_length=2, choices=YEAR_CHOICES)
-
-    BRANCH_CHOICES = [
-        ('CSE', 'Computer Science'),
-        ('IT', 'Information Technology'),
-        ('ECE', 'Electronics & Communication'),
-        ('ME', 'Mechanical'),
-        ('CE', 'Civil'),
-    ]
-    branch = models.CharField(max_length=3, choices=BRANCH_CHOICES)
+    year=models.CharField(max_length=15)
+    branch = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.name} - {self.branch} - {self.year}"
+        return self.name
 
-class StudentResponse(models.Model):
+
+class Teacher(models.Model):
     name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
+    student_class = models.CharField(max_length=50)
     contact_no = models.CharField(max_length=15)
-
-    YEAR_CHOICES = [
-        ('FY', 'First Year'),
-        ('SY', 'Second Year'),
-        ('TY', 'Third Year'),
-        ('LY', 'Last Year'),
-    ]
-    year = models.CharField(max_length=2, choices=YEAR_CHOICES)
-
-    BRANCH_CHOICES = [
-        ('CSE', 'Computer Science'),
-        ('IT', 'Information Technology'),
-        ('ECE', 'Electronics & Communication'),
-        ('ME', 'Mechanical'),
-        ('CE', 'Civil'),
-    ]
-    branch = models.CharField(max_length=3, choices=BRANCH_CHOICES)
+    year=models.CharField(max_length=15)
+    branch = models.CharField(max_length=50)
+    sports_name = models.CharField()
 
     def __str__(self):
-        return f"{self.name} - {self.branch} - {self.year}"
+        return self.name

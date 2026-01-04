@@ -1,17 +1,28 @@
 from django.shortcuts import render
 
-# Create your views here.
-def home(request):
-    return render(request, 'app1/home.html')
-from django.shortcuts import render
-from .forms import StudentResponseForm
+# views.py
+from django.shortcuts import render, redirect
+from .forms import StudentForm, TeacherForm
 
-def submit_form(request):
-    if request.method == "POST":
-        form = StudentResponseForm(request.POST)
+def home_view(request):
+    return render(request, 'app1/home.html')
+
+def student_form_view(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, "app1/thank_you.html")
+            return redirect('student_form')
     else:
-        form = StudentResponseForm()
-    return render(request, "app1/form.html", {"form": form})
+        form = StudentForm()
+    return render(request, 'app1/form.html', {'form': form})
+
+def teacher_form_view(request):
+    if request.method == 'POST':
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('teacher_form')
+    else:
+        form = TeacherForm()
+    return render(request, 'app1/form.html', {'form': form})

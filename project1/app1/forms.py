@@ -1,7 +1,14 @@
+# forms.py
 from django import forms
-from .models import StudentResponse
+from .models import Student, Teacher
 
-class StudentResponseForm(forms.ModelForm):
+class StudentForm(forms.ModelForm):
     class Meta:
-        model = StudentResponse
-        fields = ['name', 'email',  'contact_no', 'year', 'branch']
+        model = Student
+        fields = ['name', 'email', 'student_class', 'contact_no', 'branch','year']
+
+
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = ['name', 'email', 'student_class', 'contact_no', 'branch','year','sports_name']
