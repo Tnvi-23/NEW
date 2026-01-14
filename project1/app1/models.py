@@ -20,7 +20,7 @@ class Teacher(models.Model):
     contact_no = models.CharField(max_length=15)
     year=models.CharField(max_length=15)
     branch = models.CharField(max_length=50)
-    sports_name = models.CharField()
+    sports_name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name

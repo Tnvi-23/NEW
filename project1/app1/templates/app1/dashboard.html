@@ -1,0 +1,43 @@
+<h2>Owner Dashboard</h2>
+
+<!-- Teacher Responses -->
+<div class="card mb-4">
+  <div class="card-header bg-success text-white">Teacher Responses</div>
+  <div class="card-body">
+    {% if teachers %}
+      <ul>
+        {% for t in teachers %}
+          <li>
+            <strong>{{ t.name }}</strong> — {{ t.email }} |
+            Class: {{ t.student_class }} | Year: {{ t.year }} | Branch: {{ t.branch }} |
+            Contact: {{ t.contact_no }} | Sports: {{ t.sports_name }}
+            <a href="{% url 'delete_teacher' t.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No teacher responses yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Student Responses -->
+<div class="card mb-4">
+  <div class="card-header bg-info text-white">Student Responses</div>
+  <div class="card-body">
+    {% if students %}
+      <ul>
+        {% for s in students %}
+          <li>
+            <strong>{{ s.name }}</strong> — {{ s.email }} |
+            Class: {{ s.student_class }} | Year: {{ s.year }} | Branch: {{ s.branch }} |
+            Contact: {{ s.contact_no }}
+            <a href="{% url 'delete_student' s.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No student responses yet.</p>
+    {% endif %}
+  </div>
+</div>
