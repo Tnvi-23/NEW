@@ -7,41 +7,48 @@
 </head>
 <body>
 
-<div class="card">
-    <h1>WelCome To The Annual Function</h1>
-    <h2>MS Bidve Engineering College Latur</h2>
-</div>
-<div class="blocks">
-<div class="block1">
-    <h3 class="l1">Traditional Day</h3>
-    <p>
-    <a href="{% url 'student_form' %}">Click here to proceed further</a>
-    </p>
-</div>
-<div class="block2">
-    <h3 class="l1">Bollywood Day</h3>
-    <p>
-    <a href="{% url 'student_form' %}">Click here to proceed further</a>
-    </p>
-</div>
-<div class="block3">
-    <h3 class="l1">Annual Gathering</h3>
-    <p>
-    <a href="{% url 'student_form' %}">Click here to participate in the competition</a>
-    </p>
-</div>
-<div class="block4">
-    <h3 class="l1">Flashmob</h3>
-   <p>
-    <a href="{% url 'student_form' %}" >Click here to proceed further</a>
-    </p>
-</div>
-<div class="block5">
-    <h3 class="l1">Sports</h3>
-    <p>
-    <a href="{% url 'teacher_form' %}">Click here to proceed further</a>
-    </p>
-</div>
-</div>
+    <!-- Dashboard button: only visible to logged-in staff (client) -->
+    {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'dashboard' %}" class="dashboard-btn">Go to Dashboard</a>
+    {% endif %}
+
+    <div class="card">
+        <h1>Welcome To The Annual Function</h1>
+        <h2>MS Bidve Engineering College Latur</h2>
+    </div>
+
+    <div class="blocks">
+        <div class="block1">
+            <h3 class="l1">Traditional Day</h3>
+            <p>
+                <a href="{% url 'student_form' %}">Click here to proceed further</a>
+            </p>
+        </div>
+        <div class="block2">
+            <h3 class="l1">Bollywood Day</h3>
+            <p>
+                <a href="{% url 'student_form' %}">Click here to proceed further</a>
+            </p>
+        </div>
+        <div class="block3">
+            <h3 class="l1">Annual Gathering</h3>
+            <p>
+                <a href="{% url 'student_form' %}">Click here to participate in the competition</a>
+            </p>
+        </div>
+        <div class="block4">
+            <h3 class="l1">Flashmob</h3>
+            <p>
+                <a href="{% url 'student_form' %}">Click here to proceed further</a>
+            </p>
+        </div>
+        <div class="block5">
+            <h3 class="l1">Sports</h3>
+            <p>
+                <a href="{% url 'teacher_form' %}">Click here to proceed further</a>
+            </p>
+        </div>
+    </div>
+
 </body>
 </html>

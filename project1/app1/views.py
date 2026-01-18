@@ -1,16 +1,16 @@
-from django.shortcuts import render
-
-# views.py
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from .forms import StudentForm, TeacherForm
 from .models import Teacher, Student
-from django.contrib.auth.decorators import user_passes_test
+
+
+# ---------------- HOME & PUBLIC VIEWS ----------------
 
 def home_view(request):
+    # Homepage with events and conditional dashboard button
     return render(request, 'app1/home.html')
 
-def is_owner(user):
-    return user.is_authenticated and user.is_superuser and user.username == "tanvi"
 
 def student_form_view(request):
     if request.method == 'POST':
@@ -22,6 +22,7 @@ def student_form_view(request):
         form = StudentForm()
     return render(request, 'app1/form.html', {'form': form})
 
+
 def teacher_form_view(request):
     if request.method == 'POST':
         form = TeacherForm(request.POST)
@@ -31,37 +32,68 @@ def teacher_form_view(request):
     else:
         form = TeacherForm()
     return render(request, 'app1/form.html', {'form': form})
-def is_superuser(user):
-    return user.is_superuser
+
+
 def thank_you(request):
     return render(request, 'app1/thank_you.html')
 
-# Dashboard (superuser only)
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
-from .models import Teacher, Student
+# ---------------- CLIENT LOGIN ----------------
 
-def is_owner(user):
-    return user.is_authenticated and user.is_superuser
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 
-@user_passes_test(is_owner)
-def dashboard_view(request):
-    teachers = Teacher.objects.all()
-    students = Student.objects.all()
+def client_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_staff:
+            login(request, user)
+            return redirect('home')
+
+        return render(request, 'app1/login.html', {'error': 'Invalid credentials'})
+
+    return render(request, 'app1/login.html')
+
+# ---------------- DASHBOARD (CLIENT ONLY) ----------------
+
+@login_required(login_url='client_login')
+def dashboard(request):
+    # Block non-staff users even if logged in
+    if not request.user.is_staff:
+        return redirect('home')
+
+    teachers = Teacher.objects.all().order_by('-id')
+    students = Student.objects.all().order_by('-id')
+
     return render(request, 'app1/dashboard.html', {
         'teachers': teachers,
         'students': students
     })
 
-@user_passes_test(is_owner)
-def delete_teacher(request, teacher_id):
-    teacher = get_object_or_404(Teacher, id=teacher_id)
-    teacher.delete()
-    return redirect('dashboard')
 
-@user_passes_test(is_owner)
-def delete_student(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
-    student.delete()
-    return redirect('dashboard')
+# ---------------- LOGOUT ----------------
+
+
+@login_required(login_url='client_login')
+def logout_view(request):
+    if request.method in ["POST", "GET"]:   # allow both
+        logout(request)
+        return redirect('home')
+from django.contrib.sessions.models import Session
+from django.utils import timezone
+
+def active_sessions(request):
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    data = []
+    for session in sessions:
+        sdata = session.get_decoded()
+        data.append({
+            "session_key": session.session_key,
+            "user_id": sdata.get('_auth_user_id'),
+            "expire_date": session.expire_date,
+        })
+    return render(request, "app1/sessions.html", {"sessions": data})
